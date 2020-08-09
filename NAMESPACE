@@ -2,5 +2,6 @@
 
 export(get_all_player_mv)
 export(get_national_squads)
+export(get_player_historic_market_value)
 export(get_squad_list)
 export(pull_national_squads)

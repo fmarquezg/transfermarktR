@@ -2,26 +2,16 @@
 % Please edit documentation in R/functions.R
 \name{get_player_historic_market_value}
 \alias{get_player_historic_market_value}
-\title{#' Get Historic Market Value for Player
-#'
-#' This function pulls data for all national squads
-#' @param url_of_player
-#' @keywords none
-#' @export
-#' @examples
-#' get_player_historic_market_value()
-#'}
+\title{Get Historic Market Value for Player
+This function pulls data for all national squads}
 \usage{
 get_player_historic_market_value(url, name)
 }
 \description{
-#' Get Historic Market Value for Player
-#'
-#' This function pulls data for all national squads
-#' @param url_of_player
-#' @keywords none
-#' @export
-#' @examples
-#' get_player_historic_market_value()
-#'
+Get Historic Market Value for Player
+This function pulls data for all national squads
 }
+\examples{
+get_player_historic_market_value()
+}
+\keyword{none}

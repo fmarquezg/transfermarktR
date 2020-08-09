@@ -11,6 +11,7 @@
 #install('transfermarktR')
 #help(get_national_squads)
 #help(get_squad_list)
+#help(get_all_player_mv)
 #library(transfermarktR)
 #get_national_squads(1)
 #squad <- "https://www.transfermarkt.us/mexico/kader/verein/6303/plus/1/galerie/0?saison_id="
@@ -20,5 +21,5 @@
 #get_player_historic_market_value('https://www.transfermarkt.us/carlos-vela/marktwertverlauf/spieler/35773','Carlos Vela')
 #load('data/data.rda')
 
-
+#test<-get_all_player_mv()
 

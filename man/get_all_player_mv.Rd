@@ -2,18 +2,16 @@
 % Please edit documentation in R/pull_market_values.R
 \name{get_all_player_mv}
 \alias{get_all_player_mv}
-\title{Get National Squads Function}
+\title{Get National Squads Function
+This function pulls data for all national squads}
 \usage{
 get_all_player_mv()
 }
-\arguments{
-\item{none}{ad}
-}
 \description{
-This function pulls data for all national squads
+This function calls multiple functions from from this package.
+calls the player url function and outputs market value of each player for each time they
+updated their Market Value.
 }
 \examples{
 get_all_player_mv()
-
 }
-\keyword{none}
