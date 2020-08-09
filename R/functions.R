@@ -15,12 +15,12 @@
 #' @examples
 #' get_national_squads()
 #'
+
 get_national_squads <- function(n){
   fifa_ranking <- "https://www.transfermarkt.us/wettbewerbe/fifa/wettbewerbe?plus="
-  nations <-
-    xml2::read_html(paste0(fifa_ranking,n))
+  nations <- xml2::read_html(paste0(fifa_ranking,n))
 
-  nations_url_odd<-nations %>%
+  nations_url_odd <- nations %>%
     rvest::html_nodes('.odd') %>%
     rvest::html_nodes('.hauptlink') %>%
     rvest::html_nodes('a') %>%
@@ -46,30 +46,32 @@ get_national_squads <- function(n){
 
   nations_url <-rbind(nations_url_odd,nations_url_even)
 
-
   nation_odd<-nations %>%
     rvest::html_nodes('.odd') %>%
     rvest::html_nodes('.hauptlink') %>%
     rvest::html_nodes('a') %>%
     rvest::html_text() %>%
     tibble::tibble()
-  colnames(nation_odd)<-'nation'
-  nation_odd<-nation_odd %>% filter(nation!="")
+
+  colnames(nation_odd)<-"nation"
+  nation_odd <- nation_odd %>% dplyr::filter(nation !="")
 
   nation_even<-nations %>%
     rvest::html_nodes('.even') %>%
     rvest::html_nodes('.hauptlink') %>%
     rvest::html_nodes('a') %>%
     rvest::html_text() %>%
-    tibble()
-  colnames(nation_even)<-'nation'
-  nation_even<-nation_even %>% filter(nation!="")
+    tibble::tibble()
+
+  colnames(nation_even)<-"nation"
+  nation_even <- nation_even %>% dplyr::filter(nation!="")
 
   nations <-rbind(nation_odd,nation_even) %>%
     unique()
 
   data <- cbind(nations,nations_url)
   return(data)
+
 }
 
 
@@ -131,7 +133,7 @@ get_squad_list <-function(url, year){
 
   squad_urls <- squad_urls %>%
     dplyr::mutate(url = paste0("https://www.transfermarkt.us",url),
-           url = str_replace_all(url, 'profil','marktwertverlauf'),
+           url = stringr::str_replace_all(url, 'profil','marktwertverlauf'),
            nation = country,
            squad_year = year) %>%
     dplyr::select(nation, squad_year, name, url)
@@ -140,15 +142,15 @@ get_squad_list <-function(url, year){
 
 
 
-#' #' Get Historic Market Value for Player
-#' #'
-#' #' This function pulls data for all national squads
-#' #' @param url_of_player
-#' #' @keywords none
-#' #' @export
-#' #' @examples
-#' #' get_player_historic_market_value()
-#' #'
+#' Get Historic Market Value for Player
+#'
+#' This function pulls data for all national squads
+#' @param url_of_player
+#' @keywords none
+#' @export
+#' @examples
+#' get_player_historic_market_value()
+#'
 get_player_historic_market_value <- function(url,name){
   print(name)
 

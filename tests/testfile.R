@@ -8,7 +8,6 @@
 
 #roxygen2::roxygenise()
 #setwd('..')
-#
 #install('transfermarktR')
 #help(get_national_squads)
 #help(get_squad_list)
@@ -20,3 +19,6 @@
 
 #get_player_historic_market_value('https://www.transfermarkt.us/carlos-vela/marktwertverlauf/spieler/35773','Carlos Vela')
 #load('data/data.rda')
+
+
+
