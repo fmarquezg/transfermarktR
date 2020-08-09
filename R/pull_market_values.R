@@ -15,7 +15,9 @@
 #' pull_national_squads()
 #'
 pull_national_squads <- function(){
-  national_squads <- purrr::map_df(seq(1:6), get_national_squads)
+
+  national_squads <- purrr::map_df(seq(1:6), get_national_squads) %>%
+    unique()
   temp_squad_year <- national_squads %>% tidyr::expand(nation,c(2010:2019)) %>% dplyr::rename(year = `c(2010:2019)`) %>%
     dplyr::left_join(national_squads, by = c('nation'))
   nat_squads_year<-purrr::map2_dfr(temp_squad_year %>% dplyr::pull(url), temp_squad_year %>% dplyr::pull(year), get_squad_list)
