@@ -1,10 +1,8 @@
-##################################################################
-### Documenting the data files                                 ###
-# Author: Francisco Marquez                                      #
-# Code Style Guide: Google R Format                              #
-##################################################################
-
-
+################################################################################
+# Author: Paco Marquez
+# Purpose: Documenting Data Files
+# Code Style Guide: styler::tidyverse_style()
+################################################################################
 
 #' Get National Squads Function
 #'
@@ -143,16 +141,15 @@ get_squad_list <-function(url, year){
 
 
 #' Get Historic Market Value for Player
-#'
 #' This function pulls data for all national squads
-#' @param url_of_player
+#' @params url_of_player, name
 #' @keywords none
-#' @export
 #' @examples
 #' get_player_historic_market_value()
-#'
+#' @export
 get_player_historic_market_value <- function(url,name){
   print(name)
+  print(url)
 
   tryCatch(mv_url <- url %>% httr::GET(., httr::timeout(60)) %>% xml2::read_html(),
            error = function(e) {
@@ -197,20 +194,20 @@ get_player_historic_market_value <- function(url,name){
 
   #Get dim value metrics for player
   player_dim <-summary_df%>%
-    dplyr::mutate(txt = str_remove_all(raw_txt,'\t'),
-                  txt = str_remove_all(txt,'\n'),
-                  txt = str_remove_all(txt,'/Age'),
+    dplyr::mutate(txt = stringr::str_remove_all(raw_txt,'\t'),
+                  txt = stringr::str_remove_all(txt,'\n'),
+                  txt = stringr::str_remove_all(txt,'/Age'),
                   #d_flag = str_detect( txt,"Date of birth"),
-                  dob = case_when(
-                    str_detect( txt,"Date of birth") == TRUE ~ sub (".*Date of birth: *(.*?) *\\(.*","\\1", txt),
+                  dob = dplyr::case_when(
+                    stringr::str_detect( txt,"Date of birth") == TRUE ~ sub (".*Date of birth: *(.*?) *\\(.*","\\1", txt),
                     TRUE ~ ''),
-                  citizenship = case_when(
-                    str_detect( txt,"Citizenship") == TRUE ~ sub (".*Citizenship: *(.*?) * *","\\1", txt),
+                  citizenship = dplyr::case_when(
+                    stringr::str_detect( txt,"Citizenship") == TRUE ~ sub (".*Citizenship: *(.*?) * *","\\1", txt),
                     TRUE ~ ''),
-                  position = case_when(
-                    str_detect( txt,"Position") == TRUE ~ sub (".*Position: *(.*?) * *","\\1", txt),
+                  position = dplyr::case_when(
+                    stringr::str_detect( txt,"Position") == TRUE ~ sub (".*Position: *(.*?) * *","\\1", txt),
                     TRUE ~ ''),
-                  position = str_remove(position,"                                                    ")
+                  position = stringr::str_remove(position,"                                                    ")
 
     ) %>%
     dplyr::select(dob,citizenship,position) %>%
@@ -218,7 +215,7 @@ get_player_historic_market_value <- function(url,name){
     dplyr::mutate(dob=paste0(dob, collapse = ""),
                   citizenship =paste0(citizenship, collapse = ""),
                   position = paste0(position, collapse = "")) %>%
-    distinct() %>%
+    dplyr::distinct() %>%
     dplyr::ungroup() %>%
     dplyr::select(-'"f"') %>%
     dplyr::mutate(dob = as.Date(dob, format = '%b %d, %Y'))
@@ -243,15 +240,15 @@ get_player_historic_market_value <- function(url,name){
       contract_date = sub(".*'datum_mw':' *(.*?) *','x':.*","\\1", raw),
       club = sub(".*,'verein':' *(.*?) *','age'.*","\\1", raw),
       age = sub(".*'age': *(.*?) *,'mw'.*","\\1", raw),
-      contract_date = str_replace_all(contract_date, "\\\\",' '),
-      club = str_replace_all(club, "\\\\",' '),
+      contract_date = stringr::str_replace_all(contract_date, "\\\\",' '),
+      club = stringr::str_replace_all(club, "\\\\",' '),
       contract_date = as.Date(contract_date, format = '%b %d, %Y')
     ) %>%
     dplyr::select(contract_date,mv,age,club)
 
   player_mv_df<-cbind(contracts_df,player_dim) %>%
     dplyr::mutate(name = name)
-  print(url)
+  #print(url)
   return(player_mv_df)
 }
 

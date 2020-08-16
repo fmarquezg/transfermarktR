@@ -2,18 +2,15 @@
 % Please edit documentation in R/pull_market_values.R
 \name{pull_national_squads}
 \alias{pull_national_squads}
-\title{Get National Squads Function}
+\title{Get National Squads Function
+This function pulls all national squads. Currently only pulling data from 2010 to 2019.}
 \usage{
 pull_national_squads()
 }
-\arguments{
-\item{none}{ad}
-}
 \description{
-This function pulls data for all national squads
+This function outputs a dataframe with players per year per squad with url needed for
+future functions.
 }
 \examples{
 pull_national_squads()
-
 }
-\keyword{none}
