@@ -15,7 +15,9 @@
 #'
 
 get_national_squads <- function(n){
-  fifa_ranking <- "https://www.transfermarkt.us/wettbewerbe/fifa/wettbewerbe?plus="
+  #fifa_ranking <- "https://www.transfermarkt.us/wettbewerbe/fifa/wettbewerbe?plus="
+  #no fancy details (top url doesnt always work)
+  fifa_ranking <- "https://www.transfermarkt.us/wettbewerbe/fifa?page="
   nations <- xml2::read_html(paste0(fifa_ranking,n))
 
   nations_url_odd <- nations %>%
@@ -85,7 +87,17 @@ get_national_squads <- function(n){
 get_squad_list <-function(url, year){
   # Returns a dataframe with player name and URL for national Team Squad for a specific year
   print(paste0(url,year))
-  game <- xml2::read_html(paste0(url,year))
+
+  ##
+  tryCatch(game <- paste0(url,year) %>% httr::GET(., httr::timeout(60)) %>% xml2::read_html(),
+           error = function(e) {
+             message('Timout.. sleep and retry')
+             Sys.sleep(45)
+             game <- paste0(url,year) %>% httr::GET(., httr::timeout(60)) %>% xml2::read_html() },
+           finally = {game <- paste0(url,year) %>% httr::GET(., httr::timeout(60)) %>% xml2::read_html()})
+
+  ##
+  #game <- xml2::read_html(paste0(url,year))
 
 
   country<-game %>%
